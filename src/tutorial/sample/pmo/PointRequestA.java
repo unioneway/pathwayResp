@@ -48,7 +48,7 @@ public class PointRequestA extends TopMessage {
 	public byte[] ETX;
 	
 	
-	//dsdsds
+	//dsdsds111
     public PointRequestA() {
         this.setAcceptableMsg(new String[] { "P001", "P00X" }); // 본 클래스 PMO가 처리하는 전문번호를 입력합니다.
     }
