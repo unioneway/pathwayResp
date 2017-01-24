@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="KIKIFileGateWay"   basedir="..">
+<tstamp>
+   <format property="build-datetime" pattern="yyyy/MM/dd hh:mm:ss aa" />
+</tstamp>
+<tstamp>
+   <format property="build-date" pattern="-yyMMdd" />
+</tstamp>
+<property name="Maintenance S/N" value="n/a" />
+<property name="dir.src" location="src" />
+<property name="dir.lib" location="lib" />
+<property name="dir.build" location="bin" />
+<property name="point.lib.dir" location="services/point" />
+<property name="pathway.config" value="config" />
+<property name="pathway.script" value="script" />
+
+<target name="Create jar - point.jar(tutorial)">
+<jar basedir="bin" destfile="${point.lib.dir}/point.jar" includes="tutorial/**">
+<manifest>
+<attribute name="Maintenance-SerialNumber" value="${Maintenance S/N}" />
+<attribute name="Built-By" value="n/a" />
+<attribute name="Built-On" value="${build-datetime}" />
+</manifest>
+</jar>
+</target>
+</project>

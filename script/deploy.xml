@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="KIKIFileGateWay"   basedir="..">
+<tstamp>
+   <format property="build-datetime" pattern="yyyy/MM/dd hh:mm:ss aa" />
+</tstamp>
+<tstamp>
+   <format property="build-date" pattern="-yyMMdd" />
+</tstamp>
+<property name="Maintenance S/N" value="n/a" />
+<property name="dir.src" location="src" />
+<property name="dir.lib" location="lib" />
+<property name="dir.build" location="bin" />
+<property name="build.jar.name" value="${dir.lib}\${service.name}-v${service.version}${build-date}.jar" />	
+<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+<property name="pathway.config" value="config" />
+<property name="pathway.script" value="script" />
+
+<path id="classpath.project">
+   <fileset dir="${dir.lib}">
+       <include name="**/*.jar" />
+   </fileset>
+</path>
+
+<target name="Compile" description="Compile all source code.">
+   <echo>JVM version : ${ant.java.version}</echo>
+   <echo>JVM detail version : ${java.version}</echo> 
+   <javac srcdir="${dir.src}" destdir="${dir.build}"  includeantruntime="false"   source="1.7" target="1.7"   >
+      <classpath refid="classpath.project"/>
+   </javac>
+</target>
+
+<target name="Crerating JAR file" depends="Compile">
+   <jar basedir="${dir.build}" destfile="${build.jar.name}">
+      <manifest>
+           <attribute name="VER" value="${version}" />
+           <attribute name="Built-By" value="pwyIDE4eclipse" />
+           <attribute name="Built-On" value="${build-datetime}" />
+            <attribute name="Class-Path" value="*.jar"/>
+     </manifest>
+   </jar>
+ </target>
+
+<target name="Deploy" depends="Crerating JAR file">
+   <echo>JVM version : ${ant.java.version}</echo>
+   <echo>JVM detail version : ${java.version}</echo>
+   <echo>Deploy Host : ${remote.host.ip}</echo>
+   <echo>Deploy Service : ${remote.host.service}</echo>
+   <echo>Deploy User : ${remote.host.user}</echo>
+   <echo>Deploy Pass : ${remote.host.pass}</echo>
+   <echo>Deploy Verion : ${build.jar.name}</echo>
+   <scp file="${build.jar.name}" todir="${remote.host.user}@${remote.host.ip}:${remote.host.service}" trust="true" sftp="true" verbose="false" password="${remote.host.pass}"/>
+</target>
+
+<target name="Local NetStar Deploy" depends="Crerating JAR file">
+   <copy file="${build.jar.name}" todir="${NETSTAR_HOME}/services/${service.name}" />
+</target>
+
+<target name="InstallScript"  >
+   <echo>Remote Host : ${remote.host.ip}</echo>
+   <echo>Remote User : ${remote.host.user}</echo>
+   <echo>Pathway HOME : ${pathway.home}</echo>
+   <echo>Install Pathway Script/Config Files</echo>
+   <sshexec host="${remote.host.ip}" username="${remote.host.user}" password="${remote.host.pass}" trust="true" verbose="false" command="mkdir -p ${pathway.home}"/>
+   <scp todir="${remote.host.user}@${remote.host.ip}:${pathway.home}/script" trust="true" sftp="true" verbose="false" password="${remote.host.pass}">
+       <fileset dir="${pathway.script}"/>
+   </scp>
+   <scp todir="${remote.host.user}@${remote.host.ip}:${pathway.home}/config" trust="true" sftp="true" verbose="false" password="${remote.host.pass}">
+   	  <fileset dir="${pathway.config}"/>
+   </scp>
+</target>
+
+<target name="InstallAllInOne" depends="InstallScript">
+   <echo>Install Pathway AllInOne</echo>
+   <scp todir="${remote.host.user}@${remote.host.ip}:${pathway.home}/lib2" trust="true" sftp="true" verbose="false" password="${remote.host.pass}">
+	  <fileset dir="${dir.lib}" includes="**/*.jar"/>
+   </scp>
+</target>
+</project>
