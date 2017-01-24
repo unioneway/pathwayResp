@@ -37,7 +37,7 @@ public class PointRequestA extends TopMessage {
 	@PathwayMessageField(length=8,  pad="left", defaultFillValue="0", comment="요청금액")
 	public int authMomey;
 
-	
+	   
 	@PathwayMessageField(length=1,  defaultFillValue="0x1c", comment="필드구분자3")
 	public byte[] fieldTag3;
 
@@ -48,7 +48,7 @@ public class PointRequestA extends TopMessage {
 	public byte[] ETX;
 	
 	
-	//dsdsds111
+	//dsdsds11122243333
     public PointRequestA() {
         this.setAcceptableMsg(new String[] { "P001", "P00X" }); // 본 클래스 PMO가 처리하는 전문번호를 입력합니다.
     }

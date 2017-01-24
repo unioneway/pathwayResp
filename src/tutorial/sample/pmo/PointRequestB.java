@@ -19,7 +19,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * 망취소내역이 있는 경우 사용
- * @author Administrator
+ * @author Administrator   
  *
  */
 
