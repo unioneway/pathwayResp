@@ -23,7 +23,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 public class PointRequestA extends TopMessage {
 	
 	@PathwayEmbeddedMessage
-	public PointHeader header = new PointHeader();
+	public PointHeader header =  new PointHeader();
 	
 	@PathwayMessageField(length=1,  defaultFillValue="0x1c", comment="필드구분자1")
 	public byte[] fieldTag1;
@@ -47,6 +47,8 @@ public class PointRequestA extends TopMessage {
 	@PathwayMessageField(length=1, defaultFillValue="0x03", comment="ETX-전문종료")
 	public byte[] ETX;
 	
+	
+	//dsdsds
     public PointRequestA() {
         this.setAcceptableMsg(new String[] { "P001", "P00X" }); // 본 클래스 PMO가 처리하는 전문번호를 입력합니다.
     }
